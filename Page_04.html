@@ -1,0 +1,63 @@
+<html>
+  <title>
+    Cite
+  </title>
+  <link href="stule.css" rel="stylesheet" type="text/css">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <big><h1 align="center" style="color:Green">Анкета</h1></big>
+  </head>
+  <body>
+    <p>
+      <img src = "Foma.png" width="120" height="145" style="position: absolute; top: 30px; left: 30px"></img>
+      <img src = "line.png" width="30" height="350" style="position: absolute; top: 30px; left: 180px"></img><br>
+      <p style="position: absolute; top: 160px; left: 30px">
+        <a href="Main.html" style="color:Black">Главная</a><br>
+        <a href="Page_01.html" style="color:Blue">Биография</a><br>
+        <a href="Page_02.html" style="color:Red">Увлечения</a><br>
+        <a href="Page_03.html" style="color:Yellow">Файлы</a><br>
+        <a href="Page_04.html" style="color:Green">Анкета</a><br><br><br><br>
+        <a href="Develop.html" style="color:Red">О разработчиках</a>
+      </p>
+    </p>
+    <form action="MAILTO:мыло" method="post" enctype="text/plain">
+      <div id="anketa" style="position: absolute; top: 45px; left: 210px"; align="center">
+        <div id="stroka"; align="center">
+          <big>Регисрация поклонников Фомы</big>
+        </div>
+
+        <div id="stroka">
+          Фмилия: <input name="nam" type="text" size="20">
+          Имя: <input name="fenam" type="text" size="20">
+          Отчество: <input name="" type="text" size="20">
+        </div>
+
+        <div id="stroka">
+          Как вы относитесь к культу Фомы?
+          <input type="radio" name="cult" value="bad"> Плохо
+          <input type="radio" name="cult" value="none"> Никак
+          <input type="radio" name="cult" value="good"> Хорошо
+        </div>
+
+        <div id="stroka">
+          Скольо подношений вы сделали Фоме?
+          <select name="Podnos" size="1">
+            <option disabled>Выберите</option>
+            <option value="one">Одно</option>
+            <option selected value="two">Два</option>
+            <option value="thre">Три</option>
+            <option value="mor_ten_thre<">Болше трёх</option>
+          </select>
+        </div>
+
+        <div id="stroka">
+          Что ещё вы хотели бы видеть на сайте?<br>
+          <textarea name="comment" cols="60" rows="3"></textarea><br>
+          <input type="submit" value="send">
+          <input type="reset" value="clear">
+        </div>
+
+      </div>
+    </form>
+  </body>
+</html>

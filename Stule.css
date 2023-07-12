@@ -1,0 +1,6 @@
+/* таблица стилей */
+/* задаем размещение блоков */
+#header { background:white; width:800px; height:100px; }
+#menu { background:white; width:550px; height:20px; }
+#anketa { background:white; width:1000px; height:400px; }
+#stroka { background:white; width:1000px; height:30px; }
