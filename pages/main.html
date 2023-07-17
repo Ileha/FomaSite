@@ -60,7 +60,7 @@
       let database = firebaseData.database;
       let rtdbOnValue = firebaseData.rtdbOnValue;
 
-      const contentRef = rtdbRef(database, contentFirebasePath);
+      const contentRef = rtdbRef(database, contentFirebasePath, firebaseData);
       rtdbOnValue(contentRef, async (snapshot) => {
         let data = snapshot.val();
 
