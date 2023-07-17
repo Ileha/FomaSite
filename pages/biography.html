@@ -1,7 +1,5 @@
 <html>
-  <title>
-    Cite
-  </title>
+  <title>Foma web site</title>
   <link href="./../css/style.css" rel="stylesheet" type="text/css">
   <head>
     <title>Биография</title>
@@ -14,36 +12,50 @@
         <img id="heroIcon" width="120" height="145"></img>
       </a>
       <hr>
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+      <ul class="nav nav-pills flex-column mb-auto body-section">
         <li><a href="../index.html" class="nav-link text-white">Главная</a></li>
-        <li><a href="./biography.html" class="nav-link text-white">Биография</a></li>
+        <li class="nav-item"><a href="./biography.html" class="nav-link active">Биография</a></li>
         <li><a href="./hobbies.html" class="nav-link text-white">Увлечения</a></li>
         <li><a href="./files.html" class="nav-link text-white">Файлы</a></li>
         <li><a href="./survey.html" class="nav-link text-white">Анкета</a></li>
       </ul>
       <hr>
       <div>
-        <a href="#" class="nav-link text-white">О разработчиках</a>
+        <a href="./developers.html" class="nav-link text-white">О разработчиках</a>
       </div>
     </div>
 
     <hr>
     
-    <div class="body-section">
-      <h1 align="center" style="color:Blue">Биография</h1>
-      <p>Кот Фома - загадочный и уникальный кот, родившийся и проживший свою жизнь в удивительном месте, известном как Аркаим. Он был истинным воплощением кошачьей харизмы и прекрасных котовых качеств. Фома обладал уникальной внешностью с густой шерстью, окрашенной в неповторимый тигровый рисунок. </p>
-      <p>С самого детства Фома проявлял любовь к кошачьим делам. Он наслаждался долгими прогулками по живописным улочкам Аркаима, изучая окружающую среду и устанавливая свое присутствие в каждом уголке этого удивительного места. Фома был известен своим независимым характером и осторожным подходом к новым знакомствам, но всегда находился в постоянном поиске приключений и удивительных открытий.</p>
-      <p>Одно из самых ярких и привлекательных качеств Фомы была его любовь к куроголовам - изысканной и вкусной еде, которую он считал своими избранными лакомствами. Он не только находил их источники, но и научился различать куроголовы разных происхождений и подбирать самые сочные и свежие экземпляры.</p>
-      <p>Фома был известен своей способностью мастерски охотиться на грызунов и птиц, проявляя при этом высокий уровень ловкости и грации. Он был непревзойденным охотником, всегда достигавшим своих целей и неуклонно следившим за своей территорией в Аркаиме.</p>
-      <p>Жители Аркаима обожали Фому и с удовольствием проводили время в его присутствии. Он стал почти символом этого места, и его привычки и причуды стали частью местной культуры. Он часто появлялся в различных историях и легендах, рассказываемых жителями Аркаима о его удивительных приключениях и подвигах.</p>
-      <p>Кот Фома прожил свою долгую и счастливую жизнь в Аркаиме, оставив свой след в сердцах людей и став символом кошачьей прелестью и уверенности. Его история и легенды о нем продолжают жить и восхищать людей, напоминая о том, как кошки могут оставить свой отпечаток на нашей жизни.</p>
+    <div class="body-section" id="content">
+      
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script type="module">
+      const heroIconFirebasePath = "heroIcon";
+      const contentFirebasePath = "biography/content";
+
       const heroIconElementID = "heroIcon";
-      const heroIconElement = document.getElementById(heroIconElementID)
+      const contentElementID = "content";
+      const heroIconElement = document.getElementById(heroIconElementID);
+      const contentElement = document.getElementById(contentElementID);
+
+      const contentHandler = {
+        "paragraph" : (content, data) => {
+          let para = document.createElement("p");
+          let node = document.createTextNode(data.text);
+          para.appendChild(node);
+          content.appendChild(para);
+        },
+        "header" : (content, data) => {
+          let header = document.createElement("h1");
+          header.className = "page-header";
+          let node = document.createTextNode(data.text);
+          header.appendChild(node);
+          content.appendChild(header);
+        }
+      }
       
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js'
       import { 
@@ -71,13 +83,26 @@
       const storage = getStorage(app);
       const database = getDatabase(app);
 
-      const starCountRef = rtdbRef(database, "heroIcon");
-      rtdbOnValue(starCountRef, async (snapshot) => {
-        const data = snapshot.val();
+      const heroIconRef = rtdbRef(database, heroIconFirebasePath);
+      rtdbOnValue(heroIconRef, async (snapshot) => {
+        let data = snapshot.val();
         const spaceRef = storageRef(storage, data);
 
         var url = await getDownloadURL(spaceRef);
         heroIconElement.src = url;
+      });
+
+      const contentRef = rtdbRef(database, contentFirebasePath);
+      rtdbOnValue(contentRef, async (snapshot) => {
+        let data = snapshot.val();
+        console.log(data);
+
+        contentElement.innerHTML = "";
+
+        for (let i = 0; i < data.length; i++) 
+        {
+          contentHandler[data[i].type](contentElement, data[i]);
+        }
       });
       
     </script>

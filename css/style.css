@@ -5,29 +5,14 @@
 #anketa { background:white; width:1000px; height:400px; }
 #stroka { background:white; width:1000px; height:30px; }
 
-/* CSS styles for layout */
-.body-mainLayout {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .topics-section {
-    width: 15%;
-  }
-  
-  .body-section {
-    width: 85%;
-  }
+.body-section {
+  margin-right: 10px;
+  margin-left: 10px;
+}
 
-  .title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .body-line
-  {
-    width: 30px;
-  }
+.page-header
+{
+  padding: 30px;
+  text-align: center;
+  font-size: 30px;
+}
