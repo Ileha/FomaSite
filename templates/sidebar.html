@@ -1,0 +1,37 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <img id="heroIcon" width="120" height="145"></img>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto body-section">
+        <li><a href="../index.html" class="nav-link text-white">Главная</a></li>
+        <li class="nav-item"><a href="./biography.html" class="nav-link active">Биография</a></li>
+        <li><a href="./hobbies.html" class="nav-link text-white">Увлечения</a></li>
+        <li><a href="./files.html" class="nav-link text-white">Файлы</a></li>
+        <li><a href="./survey.html" class="nav-link text-white">Анкета</a></li>
+    </ul>
+    <hr>
+    <div>
+        <a href="./developers.html" class="nav-link text-white">О разработчиках</a>
+    </div>
+
+    <script>
+        const heroIconFirebasePath = "heroIcon";
+        const heroIconElementID = "heroIcon";
+        const heroIconElement = document.getElementById(heroIconElementID);
+
+        function initSideBar (firebaseData) 
+        {
+            let heroIconRef = firebaseData.rtdbRef(firebaseData.database, heroIconFirebasePath);
+            firebaseData.rtdbOnValue(heroIconRef, async (snapshot) => {
+                let data = snapshot.val();
+                const spaceRef = firebaseData.storageRef(firebaseData.storage, data);
+
+                let url = await firebaseData.getDownloadURL(spaceRef);
+                heroIconElement.src = url;
+            });
+        }
+
+        
+    </script>
+</div>
