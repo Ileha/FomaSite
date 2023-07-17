@@ -59,27 +59,27 @@ var loadtemplate = ajaxAsync({
 })
 
 const contentHandler = {
-    "paragraph": async (content, data, firebaseData) => {
+    "paragraph": async (data, firebaseData) => {
         let para = document.createElement("p");
         let node = document.createTextNode(data.text);
         para.appendChild(node);
-        content.appendChild(para);
+        return para;
     },
-    "header": async (content, data, firebaseData) => {
+    "header": async (data, firebaseData) => {
         let header = document.createElement("h1");
         header.className = "page-header";
         let node = document.createTextNode(data.text);
         header.appendChild(node);
-        content.appendChild(header);
+        return header;
     },
-    "subHeader": async (content, data, firebaseData) => {
+    "subHeader": async (data, firebaseData) => {
         let header = document.createElement("h2");
         header.className = "page-subHeader";
         let node = document.createTextNode(data.text);
         header.appendChild(node);
-        content.appendChild(header);
+        return header;
     },
-    "collage": async (content, data, firebaseData) => {
+    "collage": async (data, firebaseData) => {
         let contentDiv = document.createElement("div");
         contentDiv.classList.add("container");
 
@@ -87,16 +87,29 @@ const contentHandler = {
         appendClassesList(contentDiv2, ["row", "row-cols-1", "row-cols-sm-2", "row-cols-md-3", "g-3"]);
         contentDiv.appendChild(contentDiv2);
 
-        await Promise.all(
-            data.items.map(async item => {
-                var collageItem = htmlToElement(context.collageItem);
-                await initCollageItem(collageItem, item, firebaseData);
-                contentDiv2.appendChild(collageItem);
-            })
-        );
+        var items = (
+            await Promise.all(
+                data.items.map(async (item, i) => {
+                    var collageItem = htmlToElement(context.collageItem);
+                    await initCollageItem(collageItem, item, firebaseData);
 
+                    let result = {
+                        contentPart: collageItem,
+                        order: i
+                    };
 
-        content.appendChild(contentDiv);
+                    return result;
+                })
+            )
+        )
+        .sort((a,b) => a.order - b.order)
+        .map(item => item.contentPart);
+
+        for (let i = 0; i < items.length; i++){
+            contentDiv2.appendChild(items[i]);
+        }
+
+        return contentDiv;
     }
 
 }
@@ -106,10 +119,26 @@ async function handleContent(contentElement, data, firebaseData) {
 
     contentElement.innerHTML = "";
 
-    await Promise.all(
-        data
-            .map(async item =>
-                await contentHandler[item.type](contentElement, item, firebaseData)));
+    var items = (
+        await Promise.all(
+            data
+                .map(async (item, i) => {
+                    let contentPart = await contentHandler[item.type](item, firebaseData);
+
+                    let result = {
+                        contentPart: contentPart,
+                        order: i
+                    };
+
+                    return result;
+                }))
+            )
+            .sort((a,b) => a.order - b.order)
+            .map(item => item.contentPart);
+
+    for (let i = 0; i < items.length; i++){
+        content.appendChild(items[i]);
+    }
 
 }
 
