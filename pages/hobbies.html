@@ -1,38 +1,56 @@
 <html>
-  <title>
-    Cite
-  </title>
-  <link href="stule.css" rel="stylesheet" type="text/css">
+  <title>Foma web site</title>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <big><h1 align="center" style="color:Red">Увлечения</h1></big>
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
   </head>
-  <body>
-    <p>
-      <img src = "Foma.png" width="120" height="145" style="position: absolute; top: 30px; left: 30px"></img>
-      <img src = "line.png" width="30" height="350" style="position: absolute; top: 30px; left: 180px"></img><br>
-      <p style="position: absolute; top: 160px; left: 30px">
-        <a href="index.html" style="color:Black">Главная</a><br>
-        <a href="Page_01.html" style="color:Blue">Биография</a><br>
-        <a href="Page_02.html" style="color:Red">Увлечения</a><br>
-        <a href="Page_03.html" style="color:Yellow">Файлы</a><br>
-        <a href="Page_04.html" style="color:Green">Анкета</a><br><br><br><br>
-        <a href="Develop.html" style="color:Red">О разработчиках</a>
-      </p>
-    </p>
+  <body class="d-flex flex-nowrap">
+    <div id="sidebar" class="d-flex flex-nowrap"></div>
+    <hr>
+    <div class="content-body-section" id="content"></div>
 
-   <div id="menu" style="position: absolute; top: 150px; left: 200px">
-      <b style="position: absolute; top: 0px; left: 200px; color:blue">Куроголовы - пища наша!</b>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script type="module">
 
-      <div style="position: absolute; top: 20px; left: 0px">
-        <a href="foto_06.jpg"><img src ="foto_06.jpg" width="200" height="150"></a>
-        <b style="position: absolute; top: 150px; left: 20px">Куроголовы</b>
-      </div>
+      import { firebaseData } from '../js/initFirebase.js'
+      import { initSideBar } from '../js/sidebarInit.js'
+      import { handleContent } from '../js/contentHandler.js'
 
+      async function setUpSideBar()
+      {
+        const sidebarId = "sidebar";
+        const sidebarElementContainer = document.getElementById(sidebarId);
+
+        let sidebarElement = await initSideBar("hobbies", firebaseData);
+        sidebarElementContainer.appendChild(sidebarElement)
+      }
+
+      async function setUpContentHandler()
+      {
+        const contentFirebasePath = "hobbies/content";
+        const contentElementID = "content";
+        const contentElement = document.getElementById(contentElementID);
+
+        let rtdbRef = firebaseData.rtdbRef;
+        let database = firebaseData.database;
+        let rtdbOnValue = firebaseData.rtdbOnValue;
+
+        const contentRef = rtdbRef(database, contentFirebasePath);
+        rtdbOnValue(contentRef, async (snapshot) => {
+          let data = snapshot.val();
+
+          handleContent(contentElement, data, firebaseData);
+        });
+      }
       
-
-    </div>
-
-
+      await Promise.all([setUpSideBar(), setUpContentHandler()]);
+      
+    </script>
   </body>
 </html>
