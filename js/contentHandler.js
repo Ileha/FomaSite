@@ -11,6 +11,16 @@ async function initCollageItem(collageItem, data, firebaseData) {
     imageElement.src = url;
 }
 
+async function initImage(collageItem, data, firebaseData) {
+    let imageElement = collageItem.querySelector(imageElementID);
+    let textElement = collageItem.querySelector(textElementID);
+
+    textElement.innerHTML = data.text;
+    const spaceRef = firebaseData.storageRef(firebaseData.storage, data.image);
+    let url = await firebaseData.getDownloadURL(spaceRef);
+    imageElement.src = url;
+}
+
 function ajaxAsync(data) {
     return new Promise(function (resolve, reject) {
         $.ajax({
@@ -54,8 +64,12 @@ function htmlToElement(html) {
 
 var context = {};
 
-var loadtemplate = ajaxAsync({
+var loadCollagetemplate = ajaxAsync({
     url: "../templates/collageItem.html"
+})
+
+var loadImagetemplate = ajaxAsync({
+    url: "../templates/imageItem.html"
 })
 
 const contentHandler = {
@@ -78,6 +92,16 @@ const contentHandler = {
         let node = document.createTextNode(data.text);
         header.appendChild(node);
         return header;
+    },
+    "image": async (data, firebaseData) => {
+        let contentDiv = document.createElement("div");
+
+        var collageItem = htmlToElement(context.imageItem);
+        await initImage(collageItem, data, firebaseData);
+
+        contentDiv.appendChild(collageItem);
+
+        return contentDiv;
     },
     "collage": async (data, firebaseData) => {
         let contentDiv = document.createElement("div");
@@ -115,7 +139,8 @@ const contentHandler = {
 }
 
 async function handleContent(contentElement, data, firebaseData) {
-    context.collageItem = await loadtemplate;
+    context.collageItem = await loadCollagetemplate;
+    context.imageItem = await loadImagetemplate;
 
     contentElement.innerHTML = "";
 
