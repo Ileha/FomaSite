@@ -6,11 +6,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script type="module">
-      import { firebaseData } from '../js/initFirebase.js'
-
-      document.firebaseData = firebaseData;
-    </script>
   </head>
   <body class="d-flex flex-nowrap">
     <div id="sidebar" class="d-flex flex-nowrap">
@@ -26,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script type="module">
 
-      import { handleContent } from '../js/contentHandler.js'
+      import { firebaseData } from '../js/initFirebase.js'
 
       const sidebarId = "sidebar";
       const sidebarElement = document.getElementById(sidebarId);
@@ -38,7 +33,8 @@
         {
           let sidebar = $("#sidebar");
           sidebar.html(result);
-          initSideBar(document.firebaseData);
+          initSideBar(firebaseData);
+          setActiveItem("biography")
         },
         error: function( xhr, status, errorThrown ) 
         {
@@ -49,13 +45,15 @@
         },
       });
 
+      import { handleContent } from '../js/contentHandler.js'
+
       const contentFirebasePath = "biography/content";
       const contentElementID = "content";
       const contentElement = document.getElementById(contentElementID);
 
-      let rtdbRef = document.firebaseData.rtdbRef;
-      let database = document.firebaseData.database;
-      let rtdbOnValue = document.firebaseData.rtdbOnValue;
+      let rtdbRef = firebaseData.rtdbRef;
+      let database = firebaseData.database;
+      let rtdbOnValue = firebaseData.rtdbOnValue;
 
       const contentRef = rtdbRef(database, contentFirebasePath);
       rtdbOnValue(contentRef, async (snapshot) => {

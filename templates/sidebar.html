@@ -4,15 +4,15 @@
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto body-section">
-        <li><a href="../index.html" class="nav-link text-white">Главная</a></li>
-        <li class="nav-item"><a href="./biography.html" class="nav-link active">Биография</a></li>
-        <li><a href="./hobbies.html" class="nav-link text-white">Увлечения</a></li>
-        <li><a href="./files.html" class="nav-link text-white">Файлы</a></li>
-        <li><a href="./survey.html" class="nav-link text-white">Анкета</a></li>
+        <li><a href="../index.html" id="main" class="nav-link text-white">Главная</a></li>
+        <li><a href="./biography.html" id="biography" class="nav-link text-white">Биография</a></li>
+        <li><a href="./hobbies.html" id="hobbies" class="nav-link text-white">Увлечения</a></li>
+        <li><a href="./files.html" id="files" class="nav-link text-white">Файлы</a></li>
+        <li><a href="./survey.html" id="survey" class="nav-link text-white">Анкета</a></li>
     </ul>
     <hr>
     <div>
-        <a href="./developers.html" class="nav-link text-white">О разработчиках</a>
+        <a href="./developers.html" id="about" class="nav-link text-white">О разработчиках</a>
     </div>
 
     <script>
@@ -30,6 +30,12 @@
                 let url = await firebaseData.getDownloadURL(spaceRef);
                 heroIconElement.src = url;
             });
+        }
+
+        function setActiveItem(itemId)
+        {
+            let item = document.getElementById(itemId);
+            item.classList.add("active");
         }
 
         
