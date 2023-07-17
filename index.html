@@ -15,14 +15,12 @@
       <hr>
   
       <div class="body-section" id="content">
-        <h1 class="page-header">Сайт Фомы</h1>
-        <p>КотФома</p>
       </div>
     </div>
 
     <footer class="footer-section d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
       <div class="col-md-4 d-flex align-items-center">
-        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 Company, Inc</span>
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 Хрень, Inc</span>
       </div>
     </footer>
 
@@ -51,6 +49,24 @@
           console.log( "Status: " + status );
           console.dir( xhr );
         },
+      });
+
+      import { handleContent } from '../js/contentHandler.js'
+
+      const contentFirebasePath = "main/content";
+      const contentElementID = "content";
+      const contentElement = document.getElementById(contentElementID);
+
+      let rtdbRef = firebaseData.rtdbRef;
+      let database = firebaseData.database;
+      let rtdbOnValue = firebaseData.rtdbOnValue;
+
+      const contentRef = rtdbRef(database, contentFirebasePath);
+      rtdbOnValue(contentRef, async (snapshot) => {
+        let data = snapshot.val();
+        console.log(data);
+
+        handleContent(contentElement, data);
       });
       
     </script>

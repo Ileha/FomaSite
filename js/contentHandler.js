@@ -11,6 +11,13 @@ const contentHandler = {
         let node = document.createTextNode(data.text);
         header.appendChild(node);
         content.appendChild(header);
+    },
+    "subHeader": (content, data) => {
+        let header = document.createElement("h2");
+        header.className = "page-subHeader";
+        let node = document.createTextNode(data.text);
+        header.appendChild(node);
+        content.appendChild(header);
     }
 }
 
