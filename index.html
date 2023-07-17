@@ -1,26 +1,58 @@
 <html>
-  <title>
-    Cite
-  </title>
-  <link href="stule.css" rel="stylesheet" type="text/css">
+  <title>Foma web site</title>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <big><h1 align="center" style="color:Black">Сайт Фомы</h1></big>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   </head>
   <body>
-    <p>
-      <img src = "Foma.png" width="120" height="145" style="position: absolute; top: 30px; left: 30px"></img>
-      <img src = "line.png" width="30" height="350" style="position: absolute; top: 30px; left: 180px"></img><br>
-      <p style="position: absolute; top: 160px; left: 30px">
-        <a href="index.html">Главная</a><br>
-        <a href="Page_01.html">Биография</a><br>
-        <a href="Page_02.html">Увлечения</a><br>
-        <a href="Page_03.html">Файлы</a><br>
-        <a href="Page_04.html">Анкета</a><br><br><br><br>
-        <a href="Develop.html">О разработчиках</a>
-      </p>
-    </p>
-    <h6 align="center" style="position: absolute; top: 580px; left: 1150px">вход на сайт запрещён</h6>
-    <p style="position: absolute; top: 160px; left: 210px">КотФома</p>
+    <div class="d-flex flex-nowrap body-section">
+      <div id="sidebar" class="d-flex flex-nowrap">
+      
+      </div>
+  
+      <hr>
+  
+      <div class="body-section" id="content">
+        <h1 class="page-header">Сайт Фомы</h1>
+        <p>КотФома</p>
+      </div>
+    </div>
+
+    <footer class="footer-section d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 Company, Inc</span>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script type="module">
+
+      import { firebaseData } from '../js/initFirebase.js'
+
+      const sidebarId = "sidebar";
+      const sidebarElement = document.getElementById(sidebarId);
+
+
+      $.ajax({
+        url: "../templates/sidebar.html", 
+        success: function(result)
+        {
+          let sidebar = $("#sidebar");
+          sidebar.html(result);
+          initSideBar(firebaseData);
+          setActiveItem("main")
+        },
+        error: function( xhr, status, errorThrown ) 
+        {
+          alert( "Sorry, there was a problem!" );
+          console.log( "Error: " + errorThrown );
+          console.log( "Status: " + status );
+          console.dir( xhr );
+        },
+      });
+      
+    </script>
   </body>
 </html>

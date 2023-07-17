@@ -16,3 +16,13 @@
   text-align: center;
   font-size: 30px;
 }
+
+.footer-section {
+  height: 15%;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.body-section {
+  height: 85%;
+}
