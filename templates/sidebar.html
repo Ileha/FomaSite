@@ -14,30 +14,4 @@
     <div>
         <a href="./developers.html" id="about" class="nav-link text-white">О разработчиках</a>
     </div>
-
-    <script>
-        const heroIconFirebasePath = "heroIcon";
-        const heroIconElementID = "heroIcon";
-        const heroIconElement = document.getElementById(heroIconElementID);
-
-        function initSideBar (firebaseData) 
-        {
-            let heroIconRef = firebaseData.rtdbRef(firebaseData.database, heroIconFirebasePath);
-            firebaseData.rtdbOnValue(heroIconRef, async (snapshot) => {
-                let data = snapshot.val();
-                const spaceRef = firebaseData.storageRef(firebaseData.storage, data);
-
-                let url = await firebaseData.getDownloadURL(spaceRef);
-                heroIconElement.src = url;
-            });
-        }
-
-        function setActiveItem(itemId)
-        {
-            let item = document.getElementById(itemId);
-            item.classList.add("active");
-        }
-
-        
-    </script>
 </div>

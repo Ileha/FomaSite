@@ -27,45 +27,37 @@
     <script type="module">
 
       import { firebaseData } from '../js/initFirebase.js'
-
-      const sidebarId = "sidebar";
-      const sidebarElement = document.getElementById(sidebarId);
-
-
-      $.ajax({
-        url: "../templates/sidebar.html", 
-        success: function(result)
-        {
-          let sidebar = $("#sidebar");
-          sidebar.html(result);
-          initSideBar(firebaseData);
-          setActiveItem("main")
-        },
-        error: function( xhr, status, errorThrown ) 
-        {
-          alert( "Sorry, there was a problem!" );
-          console.log( "Error: " + errorThrown );
-          console.log( "Status: " + status );
-          console.dir( xhr );
-        },
-      });
-
+      import { initSideBar } from '../js/sidebarInit.js'
       import { handleContent } from '../js/contentHandler.js'
 
-      const contentFirebasePath = "main/content";
-      const contentElementID = "content";
-      const contentElement = document.getElementById(contentElementID);
+      async function setUpSideBar()
+      {
+        const sidebarId = "sidebar";
+        const sidebarElementContainer = document.getElementById(sidebarId);
 
-      let rtdbRef = firebaseData.rtdbRef;
-      let database = firebaseData.database;
-      let rtdbOnValue = firebaseData.rtdbOnValue;
+        let sidebarElement = await initSideBar("main", firebaseData);
+        sidebarElementContainer.appendChild(sidebarElement)
+      }
 
-      const contentRef = rtdbRef(database, contentFirebasePath, firebaseData);
-      rtdbOnValue(contentRef, async (snapshot) => {
-        let data = snapshot.val();
+      async function setUpContentHandler()
+      {
+        const contentFirebasePath = "main/content";
+        const contentElementID = "content";
+        const contentElement = document.getElementById(contentElementID);
 
-        handleContent(contentElement, data);
-      });
+        let rtdbRef = firebaseData.rtdbRef;
+        let database = firebaseData.database;
+        let rtdbOnValue = firebaseData.rtdbOnValue;
+
+        const contentRef = rtdbRef(database, contentFirebasePath);
+        rtdbOnValue(contentRef, async (snapshot) => {
+          let data = snapshot.val();
+
+          handleContent(contentElement, data, firebaseData);
+        });
+      }
+      
+      await Promise.all([setUpSideBar(), setUpContentHandler()]);
       
     </script>
   </body>
