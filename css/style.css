@@ -24,12 +24,16 @@
   font-size: 20px;
 }
 
-.footer-section {
-  height: 15%;
-  margin-right: 10px;
-  margin-left: 10px;
-}
+.wrapper {
+  min-height: 100%;
 
-.body-section {
-  height: 85%;
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+  margin-bottom: -50px;
+}
+.footer {
+  height: 50px;
+}
+.push {
+  height: 50px;
 }
