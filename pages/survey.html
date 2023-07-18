@@ -1,63 +1,77 @@
 <html>
-  <title>
-    Cite
-  </title>
-  <link href="stule.css" rel="stylesheet" type="text/css">
+  <title>Foma web site</title>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <big><h1 align="center" style="color:Green">Анкета</h1></big>
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
   </head>
-  <body>
-    <p>
-      <img src = "Foma.png" width="120" height="145" style="position: absolute; top: 30px; left: 30px"></img>
-      <img src = "line.png" width="30" height="350" style="position: absolute; top: 30px; left: 180px"></img><br>
-      <p style="position: absolute; top: 160px; left: 30px">
-        <a href="index.html" style="color:Black">Главная</a><br>
-        <a href="Page_01.html" style="color:Blue">Биография</a><br>
-        <a href="Page_02.html" style="color:Red">Увлечения</a><br>
-        <a href="Page_03.html" style="color:Yellow">Файлы</a><br>
-        <a href="Page_04.html" style="color:Green">Анкета</a><br><br><br><br>
-        <a href="Develop.html" style="color:Red">О разработчиках</a>
-      </p>
-    </p>
-    <form action="MAILTO:fomafansemail@gmail.com" method="post" enctype="text/plain">
-      <div id="anketa" style="position: absolute; top: 45px; left: 210px"; align="center">
-        <div id="stroka"; align="center">
-          <big>Регисрация поклонников Фомы</big>
-        </div>
-
-        <div id="stroka">
-          Фмилия: <input name="nam" type="text" size="20">
-          Имя: <input name="fenam" type="text" size="20">
-          Отчество: <input name="" type="text" size="20">
-        </div>
-
-        <div id="stroka">
-          Как вы относитесь к культу Фомы?
-          <input type="radio" name="cult" value="bad"> Плохо
-          <input type="radio" name="cult" value="none"> Никак
-          <input type="radio" name="cult" value="good"> Хорошо
-        </div>
-
-        <div id="stroka">
-          Скольо подношений вы сделали Фоме?
-          <select name="Podnos" size="1">
-            <option disabled>Выберите</option>
-            <option value="one">Одно</option>
-            <option selected value="two">Два</option>
-            <option value="thre">Три</option>
-            <option value="mor_ten_thre<">Болше трёх</option>
-          </select>
-        </div>
-
-        <div id="stroka">
-          Что ещё вы хотели бы видеть на сайте?<br>
-          <textarea name="comment" cols="60" rows="3"></textarea><br>
-          <input type="submit" value="send">
-          <input type="reset" value="clear">
-        </div>
-
+  <body class="d-flex flex-nowrap">
+    <div id="sidebar" class="d-flex flex-nowrap"></div>
+    <hr>
+    <div class="content-body-section" id="content">
+      <div align="center">
+        <h1 class="page-header">Регистрация поклонников Фомы</h1>
       </div>
-    </form>
+
+      <form action="MAILTO:fomafansemail@gmail.com" method="post" enctype="text/plain">
+        <div id="anketa" align="center">
+          <div id="userID">
+            Фмилия: <input name="name" type="text" size="20">
+            Имя: <input name="surname" type="text" size="20">
+            Отчество: <input name="patranomic" type="text" size="20">
+          </div>
+  
+          <div id="cult">
+            Как вы относитесь к культу Фомы?
+            <input type="radio" name="cult" value="bad"> Плохо
+            <input type="radio" name="cult" value="none"> Никак
+            <input type="radio" name="cult" value="good"> Хорошо
+          </div>
+  
+          <div id="donates">
+            Скольо подношений вы сделали Фоме?
+            <select name="donates" size="1">
+              <option disabled>Выберите</option>
+              <option value="one">Одно</option>
+              <option selected value="two">Два</option>
+              <option value="three">Три</option>
+              <option value="many">Болше трёх</option>
+            </select>
+          </div>
+  
+          <div id="comment">
+            Что ещё вы хотели бы видеть на сайте?<br>
+            <textarea name="comment" cols="60" rows="3"></textarea><br>
+            <input type="submit" value="send">
+            <input type="reset" value="clear">
+          </div>
+  
+        </div>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script type="module">
+
+      import { firebaseData } from '../js/initFirebase.js'
+      import { initSideBar } from '../js/sidebarInit.js'
+
+      async function setUpSideBar()
+      {
+        const sidebarId = "sidebar";
+        const sidebarElementContainer = document.getElementById(sidebarId);
+
+        let sidebarElement = await initSideBar("survey", firebaseData);
+        sidebarElementContainer.appendChild(sidebarElement)
+      }
+
+      await setUpSideBar();
+      
+    </script>
   </body>
 </html>
